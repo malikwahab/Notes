@@ -12,4 +12,4 @@ class NoteSerializer(ModelSerializer):
 
     class Meta:
         model = Note
-        fields = ('id', 'title', 'content', 'create_at', 'updated_at',)
+        fields = ('id', 'title', 'content', 'is_private', 'create_at', 'updated_at',)

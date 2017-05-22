@@ -10,6 +10,7 @@ class Note(models.Model):
     content = models.CharField(max_length=140)
     create_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    is_private = models.BooleanField(default=False)
     owner = models.ForeignKey(User, related_name='notes')
 
     def __str__(self):
