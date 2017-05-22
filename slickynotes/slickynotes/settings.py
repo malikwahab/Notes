@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'notes.apps.NotesConfig',
-    'users.apps.UsersConfig'
+    'users.apps.UsersConfig',
+    'django_nose',
 ]
 
 MIDDLEWARE = [
@@ -83,6 +84,15 @@ DATABASES = {
     }
 }
 
+
+# Nose setup
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=notes',
+]
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
