@@ -1,8 +1,10 @@
-from rest_framework.serializers import ModelSerializer, ValidationError
+from rest_framework.serializers import ModelSerializer, ValidationError, ReadOnlyField
 from notes.models import Note
 
 
 class NoteSerializer(ModelSerializer):
+
+    owner = ReadOnlyField(source='owner.username')
 
     def create(self, validated_data):
         content = validated_data.get('content')
@@ -12,4 +14,4 @@ class NoteSerializer(ModelSerializer):
 
     class Meta:
         model = Note
-        fields = ('id', 'title', 'content', 'is_private', 'create_at', 'updated_at',)
+        fields = ('id', 'title', 'content', 'is_private', 'create_at', 'updated_at', 'owner', )
