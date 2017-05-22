@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 class Note(models.Model):
 
     title = models.CharField(max_length=100)
-    content = models.TextField()
+    content = models.CharField(max_length=140)
     create_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     owner = models.ForeignKey(User, related_name='notes')
