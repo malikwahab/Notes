@@ -17,9 +17,11 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from rest_framework.routers import DefaultRouter
 from users.views import UserViews
+from notes.views import NoteViewSet
 
 router = DefaultRouter()
 router.register('users', UserViews)
+router.register('notes', NoteViewSet)
 
 
 urlpatterns = [
