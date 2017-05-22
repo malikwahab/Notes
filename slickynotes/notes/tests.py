@@ -54,7 +54,7 @@ class NoteViewTest(APITestCase):
                          status.HTTP_201_CREATED)
         self.assertEqual(response.data['title'], 'A Test')
 
-    def test_create_more_content(self):
+    def test_create_exeed_max_content(self):
         response = self.client.post('/api/v1/notes/', {'title': 'A Test',
                                     'content': 'Test'*100})
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
@@ -62,3 +62,23 @@ class NoteViewTest(APITestCase):
     def test_get_notes(self):
         response = self.client.get('/api/v1/notes/')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+    def test_update_notes(self):
+        response = self.client.put('/api/v1/notes/1/', {'title': 'Changed', 'content': 'Everything changed'})
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['title'], 'Changed')
+
+    def test_delete_notes(self):
+        response = self.client.delete('/api/v1/notes/1/')
+        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
+
+        # Test that get returns 404
+        new_response = self.client.get('/api/v1/notes/1/')
+        self.assertEqual(new_response.status_code, status.HTTP_404_NOT_FOUND)
+
+    def test_cannot_edit_another_user(self):
+        new_user = User.objects.create_user(username="test", password='test')
+        anotherClient = APIClient()
+        anotherClient.login(username="test", password='test')
+        response = anotherClient.put('/api/v1/notes/1/', {'title': 'Changed', 'content': 'Everything changed'})
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
