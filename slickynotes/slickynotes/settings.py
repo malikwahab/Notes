@@ -94,6 +94,10 @@ NOSE_ARGS = [
     '--cover-package=notes',
 ]
 
+REST_FRAMEWORK = {
+    'PAGE_SIZE': 5,
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
 
