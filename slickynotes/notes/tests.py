@@ -82,3 +82,12 @@ class NoteViewTest(APITestCase):
         anotherClient.login(username="test", password='test')
         response = anotherClient.put('/api/v1/notes/1/', {'title': 'Changed', 'content': 'Everything changed'})
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
+
+    def test_private_note(self):
+        new_user = User.objects.create_user(username="test", password='test')
+        anotherClient = APIClient()
+        anotherClient.login(username="test", password='test')
+        private_note = anotherClient.post('/api/v1/notes/', {'title': 'A private Note', 'content': 'Is Private', 'is_private': True})
+
+        response = self.client.get('/api/v1/notes/{}/'.format(private_note.data['id']))
+        self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
